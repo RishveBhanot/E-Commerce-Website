@@ -36,10 +36,10 @@ const Pictures = () => {
  useEffect(() => {
   const interval = setInterval(() => {
     setCurrentPicture((prevPicture) => prevPicture >= pictureItems.length - 1 ? 0 : prevPicture + 1)
-  }, 8000)
+  }, 3000)
 
-  return () => clearInterval(interval)
- },[pictureItems])
+  return () => clearInterval(interval);
+ },[])
 
   return (
     <div className='w-[100%] flex justify-center mt-6 mt-40'>

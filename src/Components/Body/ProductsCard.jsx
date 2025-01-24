@@ -10,10 +10,9 @@ const ProductsCard = ({product}) => {
     // console.log("product",product)
 
   return (
-    <div>
+    <div className="">
       <div
-        className="w-[250px] h-[350px] rounded flex items-center flex-col my-10 pt-6 ml-8 border-[1px] border-gray-400 hover:scale-110 transition-all"
-        
+        className="w-[250px] h-[350px] rounded flex flex-col items-center my-10 pt-6 ml-6 mr-6 border-[1px] border-gray-400 hover:scale-110 transition-all"
       >
         <img className="w-[220px] h-[220px]" src={product.image} />
         <p className="text-[14px] text-center h-6  ">{product.title.slice(0,30)}</p>

@@ -6,28 +6,15 @@ import Error from "./Error.jsx";
 import { useNavigate } from "react-router-dom";
 import BodyNavbar from "../Body/BodyNavbar/BodyNavbar.jsx";
 
-const MainBody = () => {
+const MainBody = ({products}) => {
+  console.log(products)
   const navigate=useNavigate();
-  const [products, setProducts] = useState(null);
-  const [filteredProducts, setFilteredProducts] = useState(null)
-  const [error, setError] = useState(false)
+  // const [products, setProducts] = useState(null);
+  const [filteredProducts, setFilteredProducts] = useState(products)
+  // const [error, setError] = useState(false)
 
-  useEffect(() => {
-    const fetchedProducts = async () => { 
-      try{
-        const productsData = await productsApi();
-        setProducts(productsData);
-        setFilteredProducts(productsData)
-
-      } catch(err) {
-        console.error('Error shows:', err)
-        setError(true)
-      }
-    }
-    fetchedProducts();
-  
-  }, []);
-  console.log('product', products)
+ 
+  // console.log('product', products)
 
   
 
@@ -53,7 +40,7 @@ const MainBody = () => {
         </p>
         <BodyNavbar onFilter= {filterCategoryProducts}/>
       </div>
-      <div className="grid grid-cols-4 ">
+      <div className="flex flex-wrap justify-center ">
         {filteredProducts &&
           filteredProducts.map((product, index) => (
             <ProductsCard key={index} product={product}/>
