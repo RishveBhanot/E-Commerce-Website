@@ -5,9 +5,12 @@ import ProductsCard from "./ProductsCard.jsx";
 import Error from "./Error.jsx";
 import { useNavigate } from "react-router-dom";
 import BodyNavbar from "../Body/BodyNavbar/BodyNavbar.jsx";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../../redux/cartSlice.js";
 
 const MainBody = ({products}) => {
   console.log(products)
+  const dispatch = useDispatch();
   const navigate=useNavigate();
   // const [products, setProducts] = useState(null);
   const [filteredProducts, setFilteredProducts] = useState(products)
@@ -43,7 +46,7 @@ const MainBody = ({products}) => {
       <div className="flex flex-wrap justify-center ">
         {filteredProducts &&
           filteredProducts.map((product, index) => (
-            <ProductsCard key={index} product={product}/>
+            <ProductsCard key={index} product={product} addToCart = {() => dispatch(addToCart(product))}/>
           ))}
       </div>
       <div>

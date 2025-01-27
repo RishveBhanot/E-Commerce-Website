@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 
 
-const ProductsCard = ({product}) => {
+const ProductsCard = ({product, addToCart}) => {
 
     const navigate = useNavigate();
 
@@ -18,7 +18,7 @@ const ProductsCard = ({product}) => {
         <p className="text-[14px] text-center h-6  ">{product.title.slice(0,30)}</p>
         <button onClick={handleShowMore} className="text-[12px] hover:scale-110 transition-all hover:text-blue-800 mt-2 mb-[2px]">Show More</button>
         <p className="text-[14px] text-center h-6 text-blue-800" >${product.price}</p>
-        <button className="border-[1px] transition-all border-yellow-600 pl-2 pr-2 pb-[2px] pt-[2px] rounded-3xl bg-yellow-500 hover:bg-gray-100 text-[12px]">Add to cart</button>
+        <button onClick={addToCart} className="border-[1px] transition-all border-yellow-600 pl-2 pr-2 pb-[2px] pt-[2px] rounded-3xl bg-yellow-500 hover:bg-gray-100 text-[12px]">Add to cart</button>
       </div>
     </div>
   );
