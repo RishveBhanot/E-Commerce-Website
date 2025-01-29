@@ -1,0 +1,53 @@
+import axios from "axios"
+
+const dB_API = 'http://localhost:3000/cartData';
+
+// export const fetchedCartData = async() => {
+//     try{
+//         const response = await axios.get(dB_API)
+//         return response.data;
+//     } catch(error){
+//         console.error("fetching error", error)
+//         throw error;
+//     }
+// }
+
+export const addProductToDB = async (product) => {
+    // const {id,category,description,title,price,rating,image}=product;
+    // const data={
+    //     productId : id,
+    //     category,
+    //     description,
+    //     title,
+    //     price,
+    //     rating,
+    //     image,
+    //     quantity:1
+    // }
+    
+    try {
+        const response = await axios.post(dB_API,product);
+        return response.data;
+    } catch(error) {
+        console.error("Failed to add product to DB:" , error);
+        throw error;
+    }
+};
+
+
+export const removeProductFromDB = async (productID) => {
+    console.log(`${productID}, idmeri`);
+    if (!productID) {
+        console.error("No productID provided");
+        return;
+    }
+    // console.log(productID,"Id")
+    try{
+        const response = await axios.delete(`${dB_API}/${productID}`);
+        console.log(response, "response")
+        return response.data;
+    } catch (error){
+        console.error("Failed to remove product from DB:", error)
+        throw error;
+    }
+};

@@ -5,6 +5,7 @@ import Pictures from '../Pictures/Pictures'
 import MainBody from './MainBody'
 import { productsApi } from "./ProductsApi.jsx";
 import Error from './Error.jsx'
+import Footer from '../Footer/Footer.jsx'
 
 const Home = () => {
 
@@ -38,6 +39,7 @@ const Home = () => {
       <MainNavbar/>
       <Pictures/>
       <MainBody products={products}/>
+      <Footer/>
    </>
   )
 }

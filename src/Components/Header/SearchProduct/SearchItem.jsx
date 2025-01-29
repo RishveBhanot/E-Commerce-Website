@@ -10,11 +10,16 @@ const SearchItem = () => {
     console.log(data)
     return (
     
-    <div className='flex'>
-      
+    <div>
+      <div className='text-center text-[36px] font-semibold '>
+      <h3>Related to <span className='text-orange-500'>Search</span>... </h3>
+      </div>
+      <div className='flex'>
       {data.map((product,index) => {
       return <ProductsCard key={index} product={product}/>
-    })}</div>
+    })}
+    </div>
+    </div>
   )
 }
 
