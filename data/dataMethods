@@ -13,6 +13,7 @@ const dB_API = 'http://localhost:3000/cartData';
 // }
 
 export const addProductToDB = async (product) => {
+    console.log(product, '123')
     // const {id,category,description,title,price,rating,image}=product;
     // const data={
     //     productId : id,
@@ -24,7 +25,6 @@ export const addProductToDB = async (product) => {
     //     image,
     //     quantity:1
     // }
-    
     try {
         const response = await axios.post(dB_API,product);
         return response.data;

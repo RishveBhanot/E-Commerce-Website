@@ -40,7 +40,7 @@ const CartPage = () => {
         (
           <div className="flex flex-col items-center">
             {cart.map((item,index) => {
-              // console.log(item);
+              console.log(item,'itemssdasf');
             
 return (
               <div key={index} 

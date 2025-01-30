@@ -7,20 +7,21 @@ const cartSlice = createSlice({
     initialState: [],
     reducers: {
         addToCart: (state, action) => {
-            // console.log(action.payload, "payload")
+            // console.log(action.payload, "payload")z
             const existingProduct = state.find(item => item.id === action.payload.id);
-            // console.log(existingProduct, "product");
+            console.log(existingProduct, "product");
             if(existingProduct){
                 existingProduct.quantity += 1;
-                axios.put(`http://localhost:3000/cartData/${action.payload.id}`, {...action.payload, quantity : existingProduct.quantity});
+            
             } else {
-                state.push({...action.payload, quantity: 1});
-                axios.post("http://localhost:3000/cartData",{...action.payload, quantity : 1})
+                const newProduct = {...action.payload, quantity :1};
+                state.push(newProduct);
+        
             }
 
-            // addProductToDB(action.payload)
-            // .then(data => console.log("Product added to db:", data))
-            // .catch(err => console.error("Failed to add product to db:", err));
+            addProductToDB(action.payload)
+            .then(data => console.log("Product added to db:", data))
+            .catch(err => console.error("Failed to add product to db:", err));
         },
 
         removeFromCart: (state, action) => {
