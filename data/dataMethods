@@ -2,18 +2,18 @@ import axios from "axios"
 
 const dB_API = 'http://localhost:3000/cartData';
 
-// export const fetchedCartData = async() => {
-//     try{
-//         const response = await axios.get(dB_API)
-//         return response.data;
-//     } catch(error){
-//         console.error("fetching error", error)
-//         throw error;
-//     }
-// }
+export const fetchedCartData = async() => {
+    try{
+        const response = await axios.get(dB_API)
+        return response.data;
+    } catch(error){
+        console.error("fetching error", error)
+        throw error;
+    }
+}
 
 export const addProductToDB = async (product) => {
-    console.log(product, '123')
+
     // const {id,category,description,title,price,rating,image}=product;
     // const data={
     //     productId : id,

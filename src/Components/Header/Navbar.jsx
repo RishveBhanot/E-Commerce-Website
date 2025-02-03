@@ -6,9 +6,11 @@ import Phone_icon from "../../assets/phone.png";
 import Search_icon from "../../assets/searchsymbol.png";
 import { Link, useNavigate } from "react-router-dom";
 import { productsApi } from "../Body/ProductsApi";
+import SignUp from "./Register/SignUp";
+import Login from "./Register/Login";
 
 const Navbar = ({products}) => {
-  console.log(products)
+  // console.log(products)
 
   const [inputValue, setInputValue] = useState('');
   const navigate=useNavigate();
@@ -19,11 +21,10 @@ const Navbar = ({products}) => {
   const filteredProducts = products.filter(product => product.title.toLowerCase().includes(inputText))
   navigate('./searchItem', {state: {category :filteredProducts }})
   setInputValue('');
-    //step 1 api call
-  
-    // step 2 filter data
-    // step 2.1 input text value matches with data 
-    //.step card show
+  }
+
+  const backToHomePage = () => {
+    navigate('/')
   }
 
   const cartPage = () => {
@@ -35,7 +36,7 @@ const Navbar = ({products}) => {
   return (
     <div className="flex justify-evenly  border-b-[1px] border-gray-400 bg-white pb-2 fixed top-0 left-0 right-0 z-10">
       <div className="">
-        <img className="w-16 h-14" src={Logo} />
+        <img onClick={backToHomePage} className="w-16 h-14" src={Logo} />
       </div>
       <div className="flex justify-center mt-2">
         
@@ -63,11 +64,12 @@ const Navbar = ({products}) => {
           <li className="border-r-2 border-gray-400 pr-6 pt-[4px] cursor-pointer hover:text-red-500 transition-all hover:scale-110 ">
             Newsroom
           </li>
-
+          <Link to={"/signup"}>
           <li className="flex flex-col ml-6 cursor-pointer hover:text-red-500">
-            <img className=" w-6 h-[20px] ml-[10px]" src={User_icon} />
-            Profile
+          
+            Login/SignUp
           </li>
+          </Link>
 
           <li onClick={cartPage} className="ml-6 cursor-pointer hover:text-red-500">
             <img className="w-6 h-6 ml-[2px]" src={Trolley_icon} alt="" />
