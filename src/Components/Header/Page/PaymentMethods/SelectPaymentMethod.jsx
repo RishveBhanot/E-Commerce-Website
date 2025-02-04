@@ -35,7 +35,7 @@ const handlePaymentMethod = (e) => {
       <form onSubmit={handleSubmit} className="flex justify-center flex-col gap-6 mt-4">
         <label>
           <input 
-          type="radio" 
+          type="checkbox" 
           name="PaymentMethod"
           value="Net Banking"
           checked={selectedPaymentMethod === "Net Banking"}
@@ -46,7 +46,7 @@ const handlePaymentMethod = (e) => {
 
         <label>
           <input
-          type="radio" 
+          type="checkbox" 
           name="PaymentMethod"
           value="COD"
           checked={selectedPaymentMethod === "COD"}
@@ -57,7 +57,7 @@ const handlePaymentMethod = (e) => {
 
         <label>
           <input 
-          type="radio" 
+          type="checkbox" 
           name="PaymentMethod"
           value="Debit Card / Credit Card"
           checked={selectedPaymentMethod === "Debit Card / Credit Card"}
