@@ -4,25 +4,25 @@ import { AiFillEye } from "react-icons/ai";
 import { AiFillEyeInvisible } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import axios  from "axios";
+import axios from "axios";
 const SignUp = () => {
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(false);
   const [isDisabled, setIsDisabled] = useState(false);
   const [formValues, setFormValues] = useState({
     username: "",
     email: "",
-    contact: 0,
+    contact: "",
     password: "",
     confirmpassword: "",
   });
 
   const navigate = useNavigate();
 
-  //It is used for eye toggle in password 
+  //It is used for eye toggle in password
 
   const toggle = () => {
-    setOpen(!open)
-  }
+    setOpen(!open);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -55,30 +55,28 @@ const SignUp = () => {
     } else if (formValues.password !== formValues.confirmpassword) {
       toast.error("Password not Matched");
     } else {
-      axios.post('http://localhost:3001/signup',formValues)
-      .then(result => console.log(result))
-      .catch(err => console.log(err))
+      axios
+        .post("http://localhost:3001/api/signup", formValues)
+        .then((result) => console.log(result))
+        .catch((err) => console.log(err));
 
       setFormValues({
         username: "",
         email: "",
-        contact: 0,
+        contact: "",
         password: "",
         confirmpassword: "",
       });
-      
+
       setIsDisabled(true);
 
-      toast.success('Registered Successfully');
+      toast.success("Registered Successfully");
 
-    setTimeout(() => {
-      navigate('/login')
-    }, 3000);
-   
+      setTimeout(() => {
+        navigate("/login");
+      }, 3000);
     }
   };
-
- 
 
   return (
     <div className="flex justify-center items-center h-screen">
@@ -91,7 +89,10 @@ const SignUp = () => {
 
         {/* FORM */}
 
-        <form onSubmit={handleSubmit} className="flex flex-col items-center gap-8 mt-8 mb-8 relative">
+        <form
+          onSubmit={handleSubmit}
+          className="flex flex-col items-center gap-8 mt-8 mb-8 relative"
+        >
           {/* NAME FIELD */}
 
           <input
@@ -101,7 +102,9 @@ const SignUp = () => {
             name="username"
             maxLength={30}
             value={formValues.username}
-            onChange={(e) => setFormValues({...formValues, [e.target.name] : e.target.value})}
+            onChange={(e) =>
+              setFormValues({ ...formValues, [e.target.name]: e.target.value })
+            }
           />
 
           {/* EMAIL FIELD */}
@@ -112,7 +115,9 @@ const SignUp = () => {
             placeholder="Your Email"
             name="email"
             value={formValues.email}
-            onChange={(e) => setFormValues({...formValues, [e.target.name] : e.target.value})}
+            onChange={(e) =>
+              setFormValues({ ...formValues, [e.target.name]: e.target.value })
+            }
             // onChange={}
           />
 
@@ -125,27 +130,32 @@ const SignUp = () => {
             name="contact"
             maxLength={12}
             value={formValues.contact}
-            onChange={(e) => setFormValues({...formValues, [e.target.name] : e.target.value})}
+            onChange={(e) =>
+              setFormValues({ ...formValues, [e.target.name]: e.target.value })
+            }
           />
 
           {/* PASSWORD FIELD */}
 
           <input
             className="rounded-2xl font-normal py-1 px-1 outline-none border-b-2 border-orange-500"
-            type={(open === false ? 'password': 'text')}
+            type={open === false ? "password" : "text"}
             placeholder="Your Password"
             name="password"
             value={formValues.password}
-            onChange={(e) => setFormValues({...formValues, [e.target.name] : e.target.value})}
+            onChange={(e) =>
+              setFormValues({ ...formValues, [e.target.name]: e.target.value })
+            }
           />
           <div className="text-xl absolute top-[196px] right-4">
-            {
-              (open === false) ?  <AiFillEye onClick={toggle}/> :  <AiFillEyeInvisible onClick={toggle}/>
-            }
-          {/* <AiFillEye onClick={toggle}/>
+            {open === false ? (
+              <AiFillEye onClick={toggle} />
+            ) : (
+              <AiFillEyeInvisible onClick={toggle} />
+            )}
+            {/* <AiFillEye onClick={toggle}/>
           <AiFillEyeInvisible onClick={toggle}/> */}
           </div>
-          
 
           {/* CONFIRM PASSWORD FIELD */}
 
@@ -155,7 +165,9 @@ const SignUp = () => {
             placeholder="Confirm Password"
             name="confirmpassword"
             value={formValues.confirmpassword}
-            onChange={(e) => setFormValues({...formValues, [e.target.name] : e.target.value})}
+            onChange={(e) =>
+              setFormValues({ ...formValues, [e.target.name]: e.target.value })
+            }
           />
 
           {/* SUBMIT/REGISTER FIELD */}

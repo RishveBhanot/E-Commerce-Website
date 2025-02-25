@@ -34,7 +34,7 @@ const Login = () => {
     } else if (!passwordRegex.test(formValues.password)) {
       toast.error("Password is Invalid");
     } else {
-      axios.post('http://localhost:3001/login',formValues)
+      axios.post('http://localhost:3001/api/login',formValues)
       .then(result => console.log(result))
       .catch(err => console.log(err))
       
@@ -74,9 +74,6 @@ const Login = () => {
             value={formValues.password}
           />
 
-      
-
-          
         </form>
         <button
             onClick={handleSubmitLogin}
@@ -84,7 +81,7 @@ const Login = () => {
           >
             Login
           </button>
-          <p>Not have a Account? <Link to='/signup'><span><span className="text-orange-500 border-b-2 border-orange-500 p-[2px]">SignUp</span> Here</span></Link></p>
+          <p className="mb-6">Not have a Account? <Link to='/signup'><span className="text-orange-500 border-b-2 border-orange-500 p-[2px]">SignUp</span></Link> Here</p>
       </div>
     </div>
   );
