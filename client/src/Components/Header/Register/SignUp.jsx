@@ -55,10 +55,12 @@ const SignUp = () => {
     } else if (formValues.password !== formValues.confirmpassword) {
       toast.error("Password not Matched");
     } else {
-      axios
-        .post("http://localhost:3001/api/signup", formValues)
-        .then((result) => console.log(result))
-        .catch((err) => console.log(err));
+      axios.post("http://localhost:7001/api/signup", formValues, {
+        withCredentials: true
+    })
+    .then((result) => console.log(result))
+    .catch((err) => console.log(err));
+    
 
       setFormValues({
         username: "",
@@ -83,14 +85,14 @@ const SignUp = () => {
       <div className=" border-black border-4 w-[400px] flex flex-col justify-center items-center ">
         {/* TITLE */}
 
-        <h1 className=" mt-8 border-2 py-2 px-4 rounded-3xl text-black text-2xl font-semibold ">
+        <h1 className=" mt-8 border-2 py-2 px-4 rounded-3xl text-black text-2xl font-semibold">
           Signup
         </h1>
 
         {/* FORM */}
 
         <form
-          onSubmit={handleSubmit}
+          onSubmit={handleSubmit} action="/signup" method="post"
           className="flex flex-col items-center gap-8 mt-8 mb-8 relative"
         >
           {/* NAME FIELD */}

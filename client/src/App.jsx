@@ -16,6 +16,7 @@ import SuccessPayment from "./Components/Header/Page/PaymentMethods/SuccessPayme
 import NetBanking from "./Components/Header/Page/PaymentMethods/NetBanking";
 import Cod from "./Components/Header/Page/PaymentMethods/Cod";
 import DebitCardCreditCard from "./Components/Header/Page/PaymentMethods/DebitCardCreditCard";
+import LoggedIn from "./Components/Header/Register/LoggedIn";
 
 
 function App() {
@@ -38,6 +39,8 @@ function App() {
           <Route path='/netBanking' element={<NetBanking/>}/>
           <Route path='/cod' element={<Cod/>}/>
           <Route path='/debitCardCreditCard' element={<DebitCardCreditCard/>}/>
+          <Route path='/loggedIn' element={<LoggedIn/>}/>
+
         </Routes>
       </Router>
       <ToastContainer/>

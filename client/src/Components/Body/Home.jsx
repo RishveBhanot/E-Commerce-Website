@@ -22,7 +22,7 @@ const Home = () => {
 
       } catch(err) {
         console.error('Error shows:', err)
-        setError(true)
+        setError(true);
       }
     }
     fetchedProducts();

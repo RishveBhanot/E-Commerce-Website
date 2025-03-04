@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import axios from 'axios';
+import axios from "axios";
 
 const Login = () => {
   const [formValues, setFormValues] = useState({
@@ -13,12 +13,11 @@ const Login = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormValues({ ...formValues, [name]: value });
-    
   };
-
+// console.log(formValues)
   const handleSubmitLogin = (e) => {
     e.preventDefault();
-
+    console.log("button clicked");
     const emailRegex =
       /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
@@ -34,12 +33,16 @@ const Login = () => {
     } else if (!passwordRegex.test(formValues.password)) {
       toast.error("Password is Invalid");
     } else {
-      axios.post('http://localhost:3001/api/login',formValues)
-      .then(result => console.log(result))
-      .catch(err => console.log(err))
-      
+      axios
+        .post("http://localhost:7001/api/login", formValues, {
+          withCredentials: true,
+        })
+        .then((result) => console.log(result))
+        .catch((err) => console.log(err, "there is some error"));
+        setTimeout(() => {
+          navigate('/loggedIn');
+        }, 3000);
     }
-    
   };
 
   return (
@@ -53,7 +56,10 @@ const Login = () => {
 
         {/* EMAIL FIELD */}
 
-        <form className="flex flex-col items-center gap-8 mt-8 mb-8">
+        <form
+          onSubmit={handleSubmitLogin}
+          className="flex flex-col items-center gap-8 mt-8 mb-8"
+        >
           <input
             className="rounded-2xl font-normal py-1 px-1 outline-none border-b-2 border-orange-500"
             type="email"
@@ -73,15 +79,23 @@ const Login = () => {
             onChange={handleChange}
             value={formValues.password}
           />
-
-        </form>
-        <button
-            onClick={handleSubmitLogin}
+          <button
+            type="submit"
             className=" bg-white hover:bg-[#4c00b4] hover:text-white transition ease-in-out delay-150 border-black border-2 py-2 px-4 rounded-3xl text-black font-semibold"
           >
             Login
           </button>
-          <p className="mb-6">Not have a Account? <Link to='/signup'><span className="text-orange-500 border-b-2 border-orange-500 p-[2px]">SignUp</span></Link> Here</p>
+        </form>
+
+        <p className="mb-6">
+          Not have a Account?{" "}
+          <Link to="/signup">
+            <span className="text-orange-500 border-b-2 border-orange-500 p-[2px]">
+              SignUp
+            </span>
+          </Link>{" "}
+          Here
+        </p>
       </div>
     </div>
   );

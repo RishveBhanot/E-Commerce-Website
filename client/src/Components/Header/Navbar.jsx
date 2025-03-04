@@ -1,19 +1,30 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Logo from "../../assets/logo.png";
-import User_icon from "../../assets/user.png";
 import Trolley_icon from "../../assets/trolley.png";
 import Phone_icon from "../../assets/phone.png";
 import Search_icon from "../../assets/searchsymbol.png";
 import { Link, useNavigate } from "react-router-dom";
-import { productsApi } from "../Body/ProductsApi";
-import SignUp from "./Register/SignUp";
-import Login from "./Register/Login";
+import axios from "axios";
+
 
 const Navbar = ({products}) => {
   // console.log(products)
 
   const [inputValue, setInputValue] = useState('');
+  const [user, setUser] = useState(null);
   const navigate=useNavigate();
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:7001/api/loggedIn", { withCredentials: true })
+      .then((response) => {
+        setUser(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching user data:", error);        
+      });
+      console.log("youuser", user);
+  }, []);
   
 
   const searchButton = () =>{
@@ -64,12 +75,20 @@ const Navbar = ({products}) => {
           <li className="border-r-2 border-gray-400 pr-6 pt-[4px] cursor-pointer hover:text-red-500 transition-all hover:scale-110 ">
             Newsroom
           </li>
-          <Link to={"/signup"}>
+          {/* <Link to={"/signup"}>
           <li className="flex flex-col ml-6 cursor-pointer hover:text-red-500">
           
             Login/SignUp
           </li>
-          </Link>
+          </Link> */}
+          {user ? (
+            user.username
+          ): (<Link to={"/signup"}>
+            <li className="flex flex-col ml-6 cursor-pointer hover:text-red-500">
+            
+              Login/SignUp
+            </li>
+            </Link>)}
 
           <li onClick={cartPage} className="ml-6 cursor-pointer hover:text-red-500">
             <img className="w-6 h-6 ml-[2px]" src={Trolley_icon} alt="" />
