@@ -24,9 +24,14 @@ const userDataSchema = new mongoose.Schema({
         type: String,
         required: true,
         unique: true
+    },
+    cart: [
+        {
+        productId: { type: String },  // ✅ Store productId as a String
+        quantity: { type: Number, default: 1 }
     }
+    ]
 });
 
 const userDataModel = mongoose.model('userData', userDataSchema);
-
 module.exports = userDataModel;

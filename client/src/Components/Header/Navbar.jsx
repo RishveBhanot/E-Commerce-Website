@@ -5,26 +5,56 @@ import Phone_icon from "../../assets/phone.png";
 import Search_icon from "../../assets/searchsymbol.png";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { setUser } from "../../redux/authSlice";
+import { fetchCart } from "../../redux/cartSliceDb";
 
 
 const Navbar = ({products}) => {
   // console.log(products)
 
   const [inputValue, setInputValue] = useState('');
-  const [user, setUser] = useState(null);
-  const navigate=useNavigate();
+  // const [user, setUser] = useState(null);
+  const user = useSelector((state) => state.auth.user);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     axios
       .get("http://localhost:7001/api/loggedIn", { withCredentials: true })
       .then((response) => {
-        setUser(response.data);
+        dispatch(setUser(response.data));
+        
+        console.log("my Response", response.data)
       })
       .catch((error) => {
-        console.error("Error fetching user data:", error);        
+        if(error.response && error.response.status === 401) {
+          dispatch(setUser(null));
+        } else {
+          console.error("Error while fetching data", error);
+        }        
       });
-      console.log("youuser", user);
+      // console.log("youuser", user);
   }, []);
+  useEffect(() => {
+   if(user){
+    dispatch(fetchCart())
+   }
+  }, [user])
+
+  const handleLogoutUser = async() => {
+    await axios.get("http://localhost:7001/api/logout", { withCredentials: true})
+    .then((response) => {
+        console.log(response.data);
+        setUser(null);
+        navigate('/');
+    })
+    .catch(err => {
+
+        console.log("Something went wrong", err)
+    }
+    )
+  };
   
 
   const searchButton = () =>{
@@ -82,7 +112,11 @@ const Navbar = ({products}) => {
           </li>
           </Link> */}
           {user ? (
-            user.username
+            <>
+             <li>{user.username}</li>
+             <button className="border-2 border-black rounded p-2" onClick={handleLogoutUser}>Logout</button>
+             </>
+           
           ): (<Link to={"/signup"}>
             <li className="flex flex-col ml-6 cursor-pointer hover:text-red-500">
             
