@@ -15,32 +15,34 @@ const Navbar = ({products}) => {
 
   const [inputValue, setInputValue] = useState('');
   // const [user, setUser] = useState(null);
+  const userId = useSelector((state) => state.auth.user?._id);
   const user = useSelector((state) => state.auth.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   useEffect(() => {
     axios
-      .get("http://localhost:7001/api/loggedIn", { withCredentials: true })
+      .get("http://localhost:7001/api/profile", { withCredentials: true })
       .then((response) => {
         dispatch(setUser(response.data));
-        
-        console.log("my Response", response.data)
       })
       .catch((error) => {
-        if(error.response && error.response.status === 401) {
+        if (error.response && error.response.status === 401) {
           dispatch(setUser(null));
         } else {
-          console.error("Error while fetching data", error);
-        }        
+          console.error("Error fetching profile data:", error);
+        }
       });
-      // console.log("youuser", user);
-  }, []);
+  }, [dispatch]);
+  
+  // 🔹 New Effect: Run only when userId is available
   useEffect(() => {
-   if(user){
-    dispatch(fetchCart())
-   }
-  }, [user])
+    if (userId) {
+      console.log("📥 Fetching Cart for userId:", userId);
+      dispatch(fetchCart(userId));
+    }
+  }, [userId, dispatch]); // ✅ Only runs when userId is defined
+  
 
   const handleLogoutUser = async() => {
     await axios.get("http://localhost:7001/api/logout", { withCredentials: true})

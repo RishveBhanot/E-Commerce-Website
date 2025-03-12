@@ -1,35 +1,30 @@
-import React, { useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../../../redux/authSlice";
 
 const LoggedIn = () => {
-  // const [user, setUser] = useState(null);
-  const user = useSelector((state) => state.auth.user)
+  const user = useSelector((state) => state.auth.user);
+  console.log(user,"terauser")
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
 
-  const getUserData = async() =>{
-    await axios
-    .get("http://localhost:7001/api/loggedIn", { withCredentials: true })
-    .then((response) => {
-        console.log("response", response);
+  const getUserData = async () => {
+    try {
+      const response = await axios.get("http://localhost:7001/api/profile", {
+        withCredentials: true, // ✅ Ensure cookies are sent
+      });
       dispatch(setUser(response.data));
-      setLoading(false);
-    })
-    .catch((error) => {
+    } catch (error) {
       console.error("Error fetching user data:", error);
-    
+    } finally {
       setLoading(false);
-    });
-  }
+    }
+  };
 
   useEffect(() => {
     getUserData();
-    //   console.log("my user", user)
   }, []);
-
-  console.log("my user", user)
 
   if (loading) {
     return <div>Loading...</div>;

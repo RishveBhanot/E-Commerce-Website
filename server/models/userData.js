@@ -27,9 +27,19 @@ const userDataSchema = new mongoose.Schema({
     },
     cart: [
         {
-        productId: { type: String },  // ✅ Store productId as a String
-        quantity: { type: Number, default: 1 }
-    }
+        productId: {type: String, required: true},
+        image: {type: String, required: true},
+            title: {type: String, required: true},
+            price: {type: Number, required: true},
+            category: {type: String, required: true},
+            description: {type: String, required: true},
+            quantity: {type:Number, default: 1},
+            rating: {
+                count: {type: Number},
+                rate: {type: Number},
+            }, 
+        }
+    
     ]
 });
 
