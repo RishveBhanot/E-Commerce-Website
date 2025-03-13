@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { setUser } from "../../../redux/authSlice";
+import { fetchUserProfile, setUser } from "../../../redux/authSlice";
 
 const LoggedIn = () => {
   const user = useSelector((state) => state.auth.user);
-  console.log(user,"terauser")
+  console.log(user,"User details after login successfully");
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
 
@@ -14,7 +14,8 @@ const LoggedIn = () => {
       const response = await axios.get("http://localhost:7001/api/profile", {
         withCredentials: true, // ✅ Ensure cookies are sent
       });
-      dispatch(setUser(response.data));
+      // console.log("user details form the server", response.data);
+      dispatch(fetchUserProfile(response.data));
     } catch (error) {
       console.error("Error fetching user data:", error);
     } finally {

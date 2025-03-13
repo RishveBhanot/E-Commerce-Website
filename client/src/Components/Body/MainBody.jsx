@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import { useEffect } from "react";
-import { productsApi } from "./ProductsApi.jsx";
 import ProductsCard from "./ProductsCard.jsx";
 import Error from "./Error.jsx";
 import { useNavigate } from "react-router-dom";
@@ -11,9 +9,9 @@ import { addToCartDb } from "../../redux/cartSliceDb.js";
 const MainBody = ({ products }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const userId = useSelector((state) => state.auth.user?._id); // ✅ Fix userId reference
+  const userEmail = useSelector((state) => state.auth.user?.email); // ✅ Fix userId reference
 
-  console.log("🆔 Fetched userId from Redux:", userId);
+  console.log("🆔 Fetched userId from Redux:", userEmail);
 
   const [filteredProducts, setFilteredProducts] = useState(products);
 
@@ -32,14 +30,15 @@ const MainBody = ({ products }) => {
 
   const handleAddToCart = (product) => {
     console.log("🛒 Adding to Cart: ", product);
+    console.log("userEmail in mainbody", userEmail);
     
-    if (!userId) {
+    if (!userEmail) {
       console.error("❌ Cannot add to cart: userId is undefined");
       navigate("/login"); // Redirect if user is not logged in
       return;
     }
 
-    dispatch(addToCartDb({ userId, product }));
+    dispatch(addToCartDb({ userEmail, product }));
   };
 
   return (
@@ -56,7 +55,7 @@ const MainBody = ({ products }) => {
             <ProductsCard 
               key={index} 
               product={product} 
-              userId={userId} 
+              userEmail={userEmail} 
               addToCart={handleAddToCart} 
             />
           ))}

@@ -3,6 +3,7 @@ import axios from "axios";
 
 export const fetchUserProfile = createAsyncThunk("fetchProfile", async () => {
     const response = await axios.get("http://localhost:7001/api/profile", {withCredentials: true});
+    // console.log("fetch profile", response.data);
     return response.data;
 })
 

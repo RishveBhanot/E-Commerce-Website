@@ -1,8 +1,9 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-const ProductsCard = ({ product, userId, addToCart }) => {
-  console.log(userId,"HEHEHEHHEHEHHE");
+const ProductsCard = ({ product, userEmail, addToCart }) => {
+  console.log(userEmail,"User email from the mainbody");
+  console.log("product from main body", product)
   const navigate = useNavigate();
 
   const handleShowMore = () => navigate(`/productInfo`, { state: { category: product } });
@@ -17,8 +18,8 @@ const ProductsCard = ({ product, userId, addToCart }) => {
         <button 
           onClick={() => {
             console.log("🛒 Add to Cart Clicked. Product ID:", product.id);
-            console.log("📢 Sending to Cart. userId:", userId); 
-            if (userId) {
+            console.log("📢 Sending to Cart. userEmail:", userEmail); 
+            if (userEmail) {
               addToCart(product); // Pass only product, since userId is already in MainBody
             } else {
               console.error("❌ Cannot add to cart: userId is undefined");

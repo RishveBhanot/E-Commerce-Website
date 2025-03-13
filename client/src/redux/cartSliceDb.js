@@ -3,34 +3,33 @@ import axios from "axios";
 
 export const fetchCart = createAsyncThunk(
   "retrieveCart",
-  async (userId, { rejectWithValue }) => {
+  async (userEmail) => {
     try {
-        console.log("idddddd",userId)
-      if (!userId) throw new Error("User ID is missing"); 
+      console.log("userEmail to get cart products", userEmail)
+      if (!userEmail) throw new Error("User ID is missing"); 
 
       const response = await axios.get(
-        `http://localhost:7001/api/cart/${userId}`,
+        `http://localhost:7001/api/cart/${userEmail}`,
         { withCredentials: true }
       );
       console.log(" Cart Fetched:", response.data);
       return response.data;
     } catch (error) {
       console.error(" Error fetching cart:", error);
-      return rejectWithValue(error.response?.data || error.message);
     }
   }
 );
 
 export const addToCartDb = createAsyncThunk(
   "cart/addToDb",
-  async ({ userId, product }, { rejectWithValue }) => {
-    console.log(product, "00000000000");
+  async ({ userEmail, product }) => {
+    console.log("Both userEmail and product",userEmail, product);
     try {
       const productWithId = { ...product, _id: product.id };
-      console.log(product.id, "tttttttttttt");
+      console.log(product.id, "product id to get from schema");
 
       const response = await axios.post("http://localhost:7001/api/cart/add", {
-        userId,
+        userEmail,
         product: {
           productId: String(productWithId._id), // Required
           image: productWithId.image,
@@ -44,16 +43,19 @@ export const addToCartDb = createAsyncThunk(
             count: productWithId.rating.count,
           },
         },
-      });
+      }, { withCredentials:true });
+      console.log('sending data to server', response.data);
+
+      if(!response.data){
+        console.log("Error sending data to the server");
+      }
+      
 
       return response.data;
     } catch (error) {
       console.error(
         "Error adding to cart:",
         error.response?.data || error.message
-      );
-      return rejectWithValue(
-        error.response?.data || { message: error.message }
       );
     }
   }

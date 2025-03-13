@@ -21,21 +21,18 @@ const handleNewUserToDb = async (req, res) => {
 };
 
 const handleProfile = async (req, res) => {
-  const token = req.cookies.token;
 
-  if (!token) {
-    return res.status(401).json({ error: "Unauthorized, No Token Found" });
-  }
+  const { email } = req.user;
 
   try {
-    const decoded = jwt.verify(token, "secret");
-    const user = await userDataModel.findById(decoded.id).select("-password");
+    const user = await userDataModel.findOne({email}).select("-password");
+
+    console.log("user after decoding", user);
 
     if (!user) {
       return res.status(404).json({ error: "User not Found" });
     }
     res.status(200).json({
-      _id: user._id,
       email: user.email,
       username: user.username,
       contact: user.contact,
@@ -48,6 +45,7 @@ const handleProfile = async (req, res) => {
 const handleLoginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
+    console.log("user email", email);
     const user = await userDataModel.findOne({ email });
     console.log("my user", user);
     if (!user) {
@@ -60,13 +58,13 @@ const handleLoginUser = async (req, res) => {
       return res.status(401).json({ error: "Invalid Credentials" });
     }
 
-    const token = jwt.sign({ id: user._id }, "secret", { expiresIn: "1hr" });
+    const token = jwt.sign({ email: user.email }, "secret");
 
     res.cookie("token", token, {
       httpOnly: true,
       sameSite: "Strict",
     });
-    res.status(200).json({ message: "Login Successfully", userId: user._id });
+    res.status(200).json({ message: "Login Successfully" });
   } catch (error) {
     res
       .status(500)
@@ -84,21 +82,21 @@ const handleLogoutUser = async (req, res) => {
 //It uses .populate("cart.productId") to fetch the details of products stored in the cart.
 
 const handlePostCartProducts = async (req, res) => {
-  const { userId } = req.user;
-  console.log("myname", userId);
+  const  userEmail  = req.user.email;
+  console.log("myname", userEmail);
   const { product } = req.body;
-  console.log("Received data:", { userId, product });
+  console.log("Received data:", {userEmail,  product });
 
   //  Validate input
-  if (!userId || !product) {
+  if (!userEmail || !product) {
     console.log("Invalid product data received:", product);
     return res.status(400).json({ message: "Invalid product data" });
   }
 
   try {
-    const user = await userDataModel.findById(userId);
+    const user = await userDataModel.findOne({email: userEmail});
     if (!user) {
-      console.log("User not found:", userId);
+      console.log("User not found:", userEmail);
       return res.status(404).json({ message: "User Not Found" });
     }
 
@@ -139,9 +137,12 @@ If the product already exists in the cart, it updates the quantity.
 Otherwise, it adds a new entry for that product.*/
 
 const handleGetCartProducts = async (req, res) => {
+
+  const  userEmail = req.user.email;
+  console.log("useremail in the server", userEmail)
   try {
     const user = await userDataModel
-      .findById(req.user.userId)
+      .findOne({email: userEmail})
       .populate("cart.productId");
     if (!user) {
       return res.status(404).json({ message: "User not Found" });

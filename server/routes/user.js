@@ -15,7 +15,7 @@ router.post("/signup", handleNewUserToDb);
 router.post("/login", handleLoginUser);
 router.get("/profile", authMiddleware, handleProfile);
 router.get("/logout", handleLogoutUser);
-router.get("/cart/:userId", authMiddleware, handleGetCartProducts);
+router.get("/cart/:userEmail", authMiddleware, handleGetCartProducts);
 router.post("/cart/add", authMiddleware, handlePostCartProducts);
 
 module.exports = router;
